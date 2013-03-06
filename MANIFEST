@@ -1,5 +1,6 @@
 examples/english-to-kanji.pl
 examples/example.pl
+examples/frequency.pl
 examples/korean.pl
 examples/morohashi.pl
 examples/onyomi-same.pl

@@ -1,11 +1,14 @@
+#!/home/ben/software/install/bin/perl
+use warnings;
+use strict;
 use Data::Kanji::Kanjidic 'parse_kanjidic';
 use FindBin;
 binmode STDOUT, ":utf8";
-my $kanji = parse_kanjidic ("$FindBin::Bin/../t/kanjidic-sample");
+my $kanji = parse_kanjidic ("/home/ben/data/edrdg/kanjidic");
 for my $k (sort keys %$kanji) {
-    my $morohashi = $kanji->{$k}->{morohashi};
-    if ($morohashi) {
-        print "$k: volume $morohashi->{volume}, page $morohashi->{page}, index $morohashi->{index}.\n";
+    my $mo = $kanji->{$k}->{morohashi};
+    if ($mo) {
+        print "$k: volume $mo->{volume}, page $mo->{page}, index $mo->{index}.\n";
     }
 }
 

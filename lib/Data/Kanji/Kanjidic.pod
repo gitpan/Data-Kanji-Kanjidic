@@ -39,281 +39,173 @@ follows. Values are scalars unless otherwise mentioned.
 
 =over
 
+=item kanji
+
+The kanji itself (the same as the key).
+
 
 
 =item B
 
 Bushu (radical as defined by the Nelson kanji dictionary)
 
-
-
-
-
 =item C
 
 Classic radical (the usual radical)
-
-
-
-
 
 =item DB
 
 Japanese for Busy People textbook numbers
 
-
-
-
-
 =item DC
 
 The index numbers used in "The Kanji Way to Japanese Language Power" by Dale Crowley.
-
-
-
-
 
 =item DF
 
 "Japanese Kanji Flashcards", by Max Hodges and Tomoko Okazaki
 
-
-
-
-
 =item DG
 
 The index numbers used in the "Kodansha Compact Kanji Guide"
-
-
-
-
 
 =item DH
 
 The index numbers used in the 3rd edition of "A Guide To Reading and Writing Japanese" edited by Kenneth Hensall et al.
 
-
-
-
-
 =item DJ
 
 The index numbers used in the "Kanji in Context" by Nishiguchi and Kono.
-
-
-
-
 
 =item DK
 
 The index numbers used by Jack Halpern in his Kanji Learners Dictionary
 
-
-
-
-
 =item DM
 
 The index numbers from the French-language version of "Remembering the kanji"
-
-
-
-
 
 =item DO
 
 The index numbers used in P.G. O'Neill's Essential Kanji
 
-
-
-
-
 =item DR
 
 the codes developed by Father Joseph De Roo, and published in his book "2001 Kanji" (Bonjinsha)
-
-
-
-
 
 =item DS
 
 The index numbers used in the early editions of "A Guide To Reading and Writing Japanese" edited by Florence Sakade.
 
-
-
-
-
 =item DT
 
 The index numbers used in the Tuttle Kanji Cards, compiled by Alexander Kask.
-
-
-
-
 
 =item E
 
 The numbers used in Kenneth Henshall's kanji book
 
-
-
-
-
 =item F
 
 Frequency of kanji
+This prints a list of kanji from most frequent to least.
 
-
-
+    
+    use Data::Kanji::Kanjidic 'parse_kanjidic';
+    my $kanji = parse_kanjidic ('/path/to/kanjidic');
+    my @sorted;
+    for my $k (keys %$kanji) {
+        if ($kanji->{$k}->{F}) {
+            push @sorted, $kanji->{$k};
+        }
+    }
+    @sorted = sort {$a->{F} <=> $b->{F}} @sorted;
+    binmode STDOUT, ":utf8";
+    for (@sorted) {
+        print "$_->{kanji}: $_->{F}\n";
+    }
+    
 
 
 =item G
 
 Year of elementary school
 
-
-
-
-
 =item H
 
 Number in Jack Halpern dictionary
-
-
-
-
 
 =item I
 
 The Spahn-Hadamitzky book number
 
-
-
-
-
 =item IN
 
 The Spahn-Hadamitzky kanji-kana book number
-
-
-
-
 
 =item J
 
 Japanese proficiency test level of the kanji
 
-
-
-
-
 =item K
 
 The index in the Gakken Kanji Dictionary (A New Dictionary of Kanji Usage);
-
-
-
-
 
 =item L
 
 Code from "Remembering the Kanji" by James Heisig
 
-
-
-
-
 =item MN
 
 Morohashi index number
-
-
-
-
 
 =item MP
 
 Morohashi volume/page
 
-
-
-
-
 =item N
 
 Nelson code from original Nelson dictionary
 
-
-
-
-
 =item O
 
 The numbers used in P.G. O'Neill's "Japanese Names"
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item P
 
 SKIP code
 
-
-
-
-
 =item Q
 
 Four-corner code for the kanji
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item S
 
 Stroke count
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item T
 
 SPECIAL
 
-
-
-
-
 =item U
 
 Unicode
 
-
-
-
-
 =item V
 
 Nelson code from the "New Nelson" dictionary
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item W
 
 Korean pronunciation
+This may take multiple values, so the value is an array reference. 
 
-This may take multiple values, so the value is an array reference.
+This prints a list of Korean pronunciations, romanized (requires
+L<Lingua::KO::Munja>).
 
     use Data::Kanji::Kanjidic 'parse_kanjidic';
     use Lingua::KO::Munja ':all'; # 강남스타일
@@ -328,113 +220,62 @@ This may take multiple values, so the value is an array reference.
     }
 
 
-
-
 =item X
 
 Cross reference
 
-
-
-
-
 =item XDR
 
 De Roo cross-reference
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item XH
 
 Cross-reference.
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item XI
 
 Cross-reference.
 
-
-
-
-
 =item XJ
 
 Cross-reference.
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item XN
 
 Nelson cross-reference
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item XO
 
 Cross-reference.
 
-
-
-
-
 =item Y
 
 Pinyin pronunciation
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item ZBP
 
 MISCLASSIFICATIONrp
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item ZPP
 
 MISCLASSIFICATIONpp
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item ZRP
 
 MISCLASSIFICATIONrp
-
 This may take multiple values, so the value is an array reference.
-
-
-
 
 =item ZSP
 
 MISCLASSIFICATIONsp
-
 This may take multiple values, so the value is an array reference.
-
-
-
-
 =item kokuji
 
 This has a true value (1) if the character is marked as a "kokuji" in
@@ -478,9 +319,10 @@ kanji. It may be undefined, if no I<on'yomi> readings are listed. The
 I<on'yomi> readings are in katakana, as per Kanjidic itself. It is
 encoded in Perl's internal Unicode encoding.
 
+The following example prints a list of kanji which have the same on'yomi:
+
     binmode STDOUT, ":utf8";
     use Data::Kanji::Kanjidic 'parse_kanjidic';
-    use utf8;
     my $kanji = parse_kanjidic ($ARGV[0]);
     my %all_onyomi;
     for my $k (keys %$kanji) {
@@ -538,14 +380,15 @@ If there is no information, this remains unset.
 
 For example, to print all the existing values,
 
+    
     use Data::Kanji::Kanjidic 'parse_kanjidic';
     use FindBin;
     binmode STDOUT, ":utf8";
-    my $kanji = parse_kanjidic ("$FindBin::Bin/../t/kanjidic-sample");
+    my $kanji = parse_kanjidic ("/path/to/kanjidic");
     for my $k (sort keys %$kanji) {
-        my $morohashi = $kanji->{$k}->{morohashi};
-        if ($morohashi) {
-            print "$k: volume $morohashi->{volume}, page $morohashi->{page}, index $morohashi->{index}.\n";
+        my $mo = $kanji->{$k}->{morohashi};
+        if ($mo) {
+            print "$k: volume $mo->{volume}, page $mo->{page}, index $mo->{index}.\n";
         }
     }
     

@@ -6,7 +6,7 @@
    "dynamic_config" : 1,
    "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150",
    "license" : [
-      "unknown"
+      "perl_5"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -37,11 +37,11 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/benkasminbullock/Data-Kanji-Kanjidic/issues"
+         "web" : "https://github.com/benkasminbullock/Data/Kanji/Kanjidic/issues"
       },
       "repository" : {
-         "url" : "https://github.com/benkasminbullock/Data-Kanji-Kanjidic"
+         "url" : "https://github.com/benkasminbullock/Data/Kanji/Kanjidic"
       }
    },
-   "version" : "0.03"
+   "version" : "0.04"
 }
