@@ -13,7 +13,7 @@ require Exporter;
                /;
 use warnings;
 use strict;
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 use strict;
 use warnings;
 use Encode;
@@ -289,17 +289,13 @@ sub parse_kanjidic
     return \%kanjidic;
 }
 
-# Return a list sorted by stroke order of the elements of
-# \%kanjidic. Also add the field "kanji_id" to each of them so that
-# the order can be reconstructed when referring to elements.
-
 sub kanjidic_order
 {
     my ($kanjidic_ref) = @_;
     my @kanjidic_order = 
         sort {
-            $kanjidic_ref->{$a}->{S} <=> 
-            $kanjidic_ref->{$b}->{S} ||
+            $kanjidic_ref->{$a}->{S}->[0] <=> 
+            $kanjidic_ref->{$b}->{S}->[0] ||
             $kanjidic_ref->{$a}->{B} <=> 
             $kanjidic_ref->{$b}->{B}
         }
