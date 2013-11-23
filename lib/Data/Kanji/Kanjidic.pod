@@ -9,15 +9,33 @@ Data::Kanji::Kanjidic - parse the "kanjidic" kanji data file
     use Data::Kanji::Kanjidic 'parse_kanjidic';
     my $kanji = parse_kanjidic ('/path/to/kanjidic');
     for my $k (keys %$kanji) {
-        print "$k has radical number $kanji->{$k}{B}.\n";
+        print "$k has radical number $kanji->{$k}{radical}.\n";
     }
 
+
+=head1 DESCRIPTION
+
+This module's basic function is to read the entire Kanjidic file into
+memory and create a data structure from it. The user then uses this
+data structure for whatever purpose. Parsing Kanjidic takes a second
+or two. Here the Kanjidic file is the as-downloaded text file in the
+old format, rather than the new-format XML file.
+
+There are several examples of the module's use in the F<examples>
+directory of the distribution, including all the code in the module's
+documentation.
 
 =head1 FUNCTIONS
 
 =head2 parse_kanjidic
 
-    my $kanjidic = parse_kanjidic ('kanjidic');
+    
+    use Data::Kanji::Kanjidic 'parse_kanjidic';
+    my $kanjidic = parse_kanjidic ('/path/to/kanjidic');
+    print "@{$kanjidic->{猫}{english}}\n";
+    # This prints out "cat".
+    
+
 
 The input is the file name where Kanjidic may be found. The return
 value is a hash reference. The keys of this hash reference are kanji,
@@ -125,7 +143,6 @@ frequently used.
         }
     }
     @sorted = sort {$a->{F} <=> $b->{F}} @sorted;
-    binmode STDOUT, ":utf8";
     for (@sorted) {
         print "$_->{kanji}: $_->{F}\n";
     }
@@ -134,7 +151,18 @@ frequently used.
 
 =item G
 
-Year of elementary school.
+Year of elementary school this kanji is taught.
+
+This field is also used by kanjidic to give information on whether the
+kanji is part of the Joyo or Jinmeiyo Kanji sets. If the grade is
+between 1 and 8, the kanji is part of the Joyo Kanji. (See
+L<http://www.sljfaq.org/afaq/jouyou-kanji.html> for details of the
+Joyo Kanji.) If the grade is 9 or 10, then the kanji is not part of
+the Joyo kanji, but it is part of the Jinmeiyo Kanji. (See
+L<http://www.sljfaq.org/afaq/jinmeiyou-kanji.html>.)
+
+See also L</grade>.
+
 
 =item H
 
@@ -213,8 +241,7 @@ The following example program prints a list of Korean pronunciations,
 romanized (requires L<Lingua::KO::Munja>).
 
     use Data::Kanji::Kanjidic 'parse_kanjidic';
-    use Lingua::KO::Munja ':all'; # 강남스타일
-    binmode STDOUT, ":utf8";
+    use Lingua::KO::Munja ':all';
     my $kanji = parse_kanjidic ($ARGV[0]);
     for my $k (sort keys %$kanji) {
         my $w = $kanji->{$k}->{W};
@@ -282,6 +309,13 @@ This may take multiple values, so the value is an array reference.
 MISCLASSIFICATIONsp.
 This may take multiple values, so the value is an array reference.
 
+=item radical
+
+This is the Kangxi radical of the kanji. This overrides Kanjidic's
+preference for the Nelson radical. In other words, this is the same as
+the L</B> field for most kanji, but if a L</C> field exists, this is the value
+of the C field rather than the B field.
+
 =item kokuji
 
 This has a true value (1) if the character is marked as a "kokuji" in
@@ -295,7 +329,10 @@ English-language meanings listed.
 
     # The following "joke" program converts English into kanji.
     
-    # Call it like "english-to-kanji.pl /where/is/kanjidic english-text".
+    # Call it with two arguments, first the location of kanjidic, and
+    # second a file of English text to "corrupt":
+    #
+    # ./english-to-kanji.pl /where/is/kanjidic english-text-file
     
     use Data::Kanji::Kanjidic 'parse_kanjidic';
     use Convert::Moji 'make_regex';
@@ -342,7 +379,6 @@ encoded in Perl's internal Unicode encoding.
 
 The following example prints a list of kanji which have the same on'yomi:
 
-    binmode STDOUT, ":utf8";
     use Data::Kanji::Kanjidic 'parse_kanjidic';
     my $kanji = parse_kanjidic ($ARGV[0]);
     my %all_onyomi;
@@ -406,7 +442,6 @@ For example, to print all the existing values,
     
     use Data::Kanji::Kanjidic 'parse_kanjidic';
     use FindBin;
-    binmode STDOUT, ":utf8";
     my $kanji = parse_kanjidic ("/path/to/kanjidic");
     for my $k (sort keys %$kanji) {
         my $mo = $kanji->{$k}->{morohashi};
@@ -423,11 +458,19 @@ For detailed explanations of these codes, see L</Kanjidic>.
 
 =head2 kanjidic_order
 
-    kanjidic_order ($kanjidic_ref);
+    my @order = kanjidic_order ($kanjidic_ref);
 
-Return a list sorted by stroke order of the elements of
-C<\%kanjidic>. Also add the field "kanji_id" to each of them so that
-the order can be reconstructed when referring to elements.
+Given an input of the return value of L</parse_kanjidic>, this returns
+a list of the kanji sorted by the stroke order (the S field) of the
+elements of C<\%kanjidic>. Elements with the same stroke order are
+sorted by radical (the B field). This also adds a new field "kanji_id"
+to each of them so that the order can be reconstructed when referring
+to elements.
+
+This replicates the ordering of kanji in a kanji dictionary's index by
+stroke order. See
+L<http://www.sljfaq.org/afaq/using-a-kanji-dictionary.html> for more
+on kanji dictionary ordering.
 
 =head2 grade
 
@@ -435,7 +478,31 @@ the order can be reconstructed when referring to elements.
 
 Given a school grade such as C<2> above, and the return value of
 L</parse_kanjidic>, C<$kanjidic_ref>, return an array reference
-containing a list of all of the kanji from that grade.
+containing a list of all of the kanji from that grade. (See
+L<http://www.sljfaq.org/afaq/education.html> for details of the
+Japanese education system.)
+
+The following example prints a list of the kanji from each school
+grade to standard output:
+
+    
+    use Data::Kanji::Kanjidic qw/parse_kanjidic grade/;
+    my $kanjidic = parse_kanjidic ('/path/to/kanjidic');
+    for my $grade (1..6) {
+        my $list = grade ($kanjidic, $grade);
+        print "Grade $grade:\n\n";
+        my $count = 0;
+        for (sort @$list) {
+            print "$_ ";
+            $count++;
+            if ($count % 20 == 0) {
+                print "\n";
+            }
+        }
+        print "\n";
+    }
+    
+
 
 =head1 SEE ALSO
 
