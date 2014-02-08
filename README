@@ -12,7 +12,7 @@
                  |__/                
 
 
-This is the README for Data::Kanji::Kanjidic version 0.11.
+This is the README for Data::Kanji::Kanjidic version 0.12.
 
 Data::Kanji::Kanjidic is a "module" for the Perl computer programming language,
 a library of computer code to install on a computer.  This document contains
@@ -32,7 +32,10 @@ four sections:
 
 Data::Kanji::Kanjidic - parse the "kanjidic" kanji data file
 
-This module's basic function is to read the entire Kanjidic file into
+This is a module for extracting the data from the old-format
+"kanjidic" kanji dictionary file created by Professor Jim Breen.
+
+This module's basic function is to read the "kanjidic" file into
 memory and create a data structure from it. The user then uses this
 data structure for whatever purpose. Parsing Kanjidic takes a second
 or two. Here the Kanjidic file is the as-downloaded text file in the
@@ -72,11 +75,11 @@ If you have the App::cpanminus installer, you may prefer
 
     cpanm Data::Kanji::Kanjidic
 
-To install the module from the source file, Data-Kanji-Kanjidic-0.11.tar.gz,
+To install the module from the source file, Data-Kanji-Kanjidic-0.12.tar.gz,
 follow this sequence of commands:
 
-    tar xfz Data-Kanji-Kanjidic-0.11.tar.gz
-    cd Data-Kanji-Kanjidic-0.11
+    tar xfz Data-Kanji-Kanjidic-0.12.tar.gz
+    cd Data-Kanji-Kanjidic-0.12
     perl Makefile.PL
     make
     make install
@@ -101,6 +104,6 @@ public repository on github at
 
 -----------------------------------------------------------------------------
 
-This README was written on Wed Feb  5 22:27:06 2014.
+This README was written on Sat Feb  8 10:31:02 2014.
 
 -----------------------------------------------------------------------------
