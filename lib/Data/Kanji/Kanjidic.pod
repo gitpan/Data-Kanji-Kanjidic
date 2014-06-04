@@ -113,9 +113,17 @@ The index numbers used in the "Kanji in Context" by Nishiguchi and Kono.
 
 The index numbers used by Jack Halpern in his Kanji Learners Dictionary.
 
+=item DL
+
+The index numbers used in the 2013 edition of Halpern's Kanji Learners Dictionary.
+
 =item DM
 
 The index numbers from the French-language version of "Remembering the kanji".
+
+=item DN
+
+The index number used in "Remembering The Kanji, 6th Edition" by James Heisig.
 
 =item DO
 
