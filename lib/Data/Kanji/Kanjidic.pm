@@ -19,7 +19,7 @@ our %EXPORT_TAGS = (
 );
 use warnings;
 use strict;
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 use strict;
 use warnings;
 use Encode;
@@ -64,6 +64,7 @@ our %codes = (
     'DL' => 'The index numbers used in the 2013 edition of Halpern\'s Kanji Learners Dictionary',
     'DM' => 'The index numbers from the French-language version of "Remembering the kanji"',
     'DN' => 'The index number used in "Remembering The Kanji, 6th Edition" by James Heisig',
+    'DP' => 'the index numbers used by Jack Halpern in his Kodansha Kanji Dictionary (2013), which is the revised version of the "New Japanese-English Kanji Dictionary" of 1990',
     'DO' => 'The index numbers used in P.G. O\'Neill\'s Essential Kanji',
     'DR' => 'The codes developed by Father Joseph De Roo, and published in his book "2001 Kanji" (Bonjinsha)',
     'DS' => 'The index numbers used in the early editions of "A Guide To Reading and Writing Japanese" edited by Florence Sakade',
@@ -186,7 +187,7 @@ sub parse_entry
             }
         }
         if (! $found) {
-            warn "$.: Mystery entry \"$entry\"\n";
+            warn "kanjidic:$.: Mystery entry \"$entry\"\n";
         }
     }
     my %morohashi;

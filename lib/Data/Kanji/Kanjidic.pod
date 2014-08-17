@@ -129,6 +129,10 @@ The index number used in "Remembering The Kanji, 6th Edition" by James Heisig.
 
 The index numbers used in P.G. O'Neill's Essential Kanji.
 
+=item DP
+
+the index numbers used by Jack Halpern in his Kodansha Kanji Dictionary (2013), which is the revised version of the "New Japanese-English Kanji Dictionary" of 1990.
+
 =item DR
 
 The codes developed by Father Joseph De Roo, and published in his book "2001 Kanji" (Bonjinsha).
